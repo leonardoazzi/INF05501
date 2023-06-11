@@ -1,0 +1,69 @@
+// A:=A+B (soma destrutiva)
+operation soma(A,B){
+1: if zero B then goto 0 else goto 2
+2: do dec B goto 3
+3: do inc A goto 1
+}
+
+// A:=A+B (soma não-destrutiva)
+operation somaND(A,B,C){
+1: if zero B then goto 5 else goto 2
+2: do dec B goto 3
+3: do inc A goto 4
+4: do inc C goto 1
+5: if zero C then goto 0 else goto 6
+6: do dec C goto 7
+7: do inc B goto 5
+}
+
+// limpa variável
+operation clear(A){
+1: if zero A then goto 0 else goto 2
+2: do dec A goto 1
+}
+
+// A:=B (atribuição destrutiva)
+operation load(A,B){
+1: do clear(A) goto 2
+2: do soma(A,B) goto 0
+}
+
+// A:=B usando C (atribuição não-destrutiva)
+operation loadND(A,B,C){
+1: do clear(A) goto 2
+2: do somaND(A,B,G) goto 0
+}
+
+// A:=AxB usando C,D
+operation mult(A,B,C,D){
+1: do load(C,A) goto 2
+2: if zero C then goto 0 else goto 3
+3: do somaND(A,B,F) goto 4
+4: do dec C goto 2
+}
+
+operation square(A){
+1: do loadND(Q,A,W) goto 2
+2: do mult(A,Q,U,K) goto 0
+}
+
+operation exp(A,B){
+1: do loadND(C,B,D) goto 2
+2: do dec C goto 3
+3: do loadND(R,A,J) goto 4
+4: if zero C then goto 0 else goto 5
+5: do mult(A,R,N,Z) goto 6
+6: do dec C goto 4
+}
+
+main{
+1: do load(N1,X) goto 2
+2: do add E_2 2 goto 3
+3: if zero N1 then goto 9 else goto 4
+4: do loadND(Exp, N1, V1) goto 5
+5: do exp(Exp, E_2) goto 6
+6: do soma(Ac, Exp) goto 7
+7: do somaND(Ac, N1, V2) goto 8
+8: do dec N1 goto 3
+9: do load(Y,Ac) goto 0
+}
