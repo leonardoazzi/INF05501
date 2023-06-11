@@ -38,21 +38,16 @@ operation loadND(A,B,C){
 operation mult(A,B,C,D){
 1: do load(C,A) goto 2
 2: if zero C then goto 0 else goto 3
-3: do somaND(A,B,F) goto 4
+3: do somaND(A,B,D) goto 4
 4: do dec C goto 2
 }
 
-operation square(A){
-1: do loadND(Q,A,W) goto 2
-2: do mult(A,Q,U,K) goto 0
-}
-
 operation exp(A,B){
-1: do loadND(C,B,D) goto 2
+1: do loadND(C,B,E) goto 2
 2: do dec C goto 3
-3: do loadND(R,A,J) goto 4
+3: do loadND(D,A,F) goto 4
 4: if zero C then goto 0 else goto 5
-5: do mult(A,R,N,Z) goto 6
+5: do mult(A,D,G,H) goto 6
 6: do dec C goto 4
 }
 
@@ -66,9 +61,8 @@ operation subtrai(A,B,C){
 }
 
 main{
-//    1: do loadND(B,X,P) goto 2
 1: do add B 3 goto 2
-2: do loadND(A,X,P) goto 3
+2: do loadND(A,X,C) goto 3
 3: do exp(A,B) goto 4
 4: do subtrai(A,X,C) goto 5
 5: do load(Y,A) goto 0

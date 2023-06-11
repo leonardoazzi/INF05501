@@ -36,28 +36,28 @@ operation load(A,B){
 // A:=B usando C (atribuição não-destrutiva)
 operation loadND(A,B,C){
 1: do clear(A) goto 2
-2: do somaND(A,B,G) goto 0
+2: do somaND(A,B,C) goto 0
 }
 
 // A:=AxB usando C,D
 operation mult(A,B,C,D){
 1: do load(C,A) goto 2
 2: if zero C then goto 0 else goto 3
-3: do somaND(A,B,F) goto 4
+3: do somaND(A,B,D) goto 4
 4: do dec C goto 2
 }
 
-operation square(A){
-1: do loadND(Q,A,W) goto 2
-2: do mult(A,Q,U,K) goto 0
+operation square(A,B,C){
+1: do loadND(D,A,B) goto 2
+2: do mult(A,D,B,C) goto 0
 }
 
 operation exp(A,B){
-1: do loadND(C,B,D) goto 2
+1: do loadND(C,B,E) goto 2
 2: do dec C goto 3
-3: do loadND(R,A,J) goto 4
+3: do loadND(D,A,F) goto 4
 4: if zero C then goto 0 else goto 5
-5: do mult(A,R,N,Z) goto 6
+5: do mult(A,D,G,H) goto 6
 6: do dec C goto 4
 }
 
