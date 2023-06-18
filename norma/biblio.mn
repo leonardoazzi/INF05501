@@ -1,0 +1,117 @@
+//============================================
+// Máquina NORMA
+// Operações e testes
+//============================================
+
+// A:=A+B (soma destrutiva)
+operation soma(A,B){
+1: if zero B then goto 0 else goto 2
+2: do dec B goto 3
+3: do inc A goto 1
+}
+
+// A:=A+B (soma não-destrutiva)
+operation somaND(A,B,C){
+1: if zero B then goto 5 else goto 2
+2: do dec B goto 3
+3: do inc A goto 4
+4: do inc C goto 1
+5: if zero C then goto 0 else goto 6
+6: do dec C goto 7
+7: do inc B goto 5
+}
+
+// limpa variável
+operation clear(A){
+1: if zero A then goto 0 else goto 2
+2: do dec A goto 1
+}
+
+// A:=B (atribuição destrutiva)
+operation load(A,B){
+1: do clear(A) goto 2
+2: do soma(A,B) goto 0
+}
+
+// A:=B usando C (atribuição não-destrutiva)
+operation loadND(A,B,C){
+1: do clear(A) goto 2
+2: do somaND(A,B,C) goto 0
+}
+
+// A:=AxB usando C,D
+operation mult(A,B,C,D){
+1: do load(C,A) goto 2
+2: if zero C then goto 0 else goto 3
+3: do somaND(A,B,D) goto 4
+4: do dec C goto 2
+}
+
+operation square(A,B,C){
+1: do loadND(D,A,B) goto 2
+2: do mult(A,D,B,C) goto 0
+}
+
+operation exp(A,B){
+1: do loadND(C,B,E) goto 2
+2: do dec C goto 3
+3: do loadND(D,A,F) goto 4
+4: if zero C then goto 0 else goto 5
+5: do mult(A,D,G,H) goto 6
+6: do dec C goto 4
+}
+
+// A:=A-B usando C (subtração conservativa)
+operation subtrai(A,B,C){
+1: do load(C,B) goto 2
+2: if zero C then goto 0 else goto 3
+3: do dec C goto 4
+4: do inc B goto 5
+5: do dec A goto 2
+}
+
+// Teste A<B?
+test less_than(A, B, C, D){
+    1: do loadND(C, A, E) goto 2
+    2: do loadND(D, B, E)  goto 3
+    3: if zero C then goto 4 else goto 5
+    4: if zero D then goto false else goto true
+    5: do dec C goto 6
+    6: do dec D goto 3
+}
+
+// Teste A>B?
+test more_than(A, B, C, D){
+    1: do loadND(C, A, E) goto 2
+    2: do loadND(D, B, E)  goto 3
+    3: if zero C then goto 4 else goto 5
+    4: if zero D then goto true else goto false
+    5: do dec C goto 6
+    6: do dec D goto 3
+}
+
+// Teste A=B?
+test equal(A, B, C, D){
+    1: do loadND(C, A, E) goto 2
+    2: do loadND(D, B, E)  goto 3
+    3: if zero C then goto 4 else goto 5
+    4: if zero D then goto true else goto false
+    5: if zero D then goto 6 else goto 7
+    6: if zero C then goto true else goto false
+    7: do dec C goto 8
+    8: do dec D goto 3
+}
+
+// Teste A<=B?
+test less_or_equal(A, B, C, D){
+    1: do loadND(C, A, E) goto 2
+    2: do loadND(D, B, E)  goto 3
+    3: if zero C then goto 4 else goto 5
+    4: if zero D then goto true else goto true
+    5: if zero D then goto 6 else goto 7
+    6: if zero C then goto true else goto false
+    7: do dec C goto 8
+    8: do dec D goto 3
+}
+
+
