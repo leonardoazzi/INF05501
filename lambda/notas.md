@@ -52,24 +52,102 @@
 
 ## Pares
     pair M N = \ m n c. c m n
-        onde c é controle
-        m e n são passados como parâmetros de c
+        -- par M N, onde c é controle
 
     fst = \p. p true
     snd = \p. p false
 
 ## Predecessor
+```haskell
     swap = \p. pair (snd p) (fst p)
-        Constrói um novo par invertendo a ordem dos elementos do par original
+        -- Constrói um novo par invertendo a ordem dos elementos do par original
 
     shiftInc = \p. pair (snd p) (succ (snd p))
-        Constrói um novo par com 
-            - o primeiro elemento composto pelo segundo elemento (snd) do par original (p)
-            - o segundo elemento composto pelo sucessor (succ) do segundo elemento (snd) do par original (p)
+        -- Constrói um novo par com 
+            -- o primeiro elemento composto pelo segundo elemento (snd) do par original (p)
+            -- o segundo elemento composto pelo sucessor (succ) do segundo elemento (snd) do par original (p)
 
     pred = \n. fst(n shiftInc (pair 0 0))
-        Constrói o par (n-1, n) e extrai o n-1
+        -- Constrói o par (n-1, n) e extrai o n-1
+``` 
+
+## Subtração
+```haskell
+  sub = /a b. b pred a
+    -- Calcula a-b, fazendo b vezes o predecessor de a
+    -- Ex.: sub 5 2, roda 2 vezes o predecessor sobre 5
+```
+## Menor que
+    isPos = \n. not (isZero n)
+      -- Se um número não é zero
     
+    less = \a b. isPos(isZero (sub b a))
+      -- Se a é estritamente menor que b, valor da diferença entre b e a é positivo
+      -- Se valor é positivo, logo a é estritamente menor que b
+
+# Listas
+    empty = \x. true
+    cons = \h t. pair h t = pair
+      -- h: head
+      -- t: tail
+    head = fst
+    tail = snd
+
+    isEmpty = \L.L (\x \y. false)
+      -- Aplica o L em um falso-seletor
+        -- Recebe duas coisas, mas retorna sempre uma cte
+      -- Se recebe empty (\x.true), devolve true
+      -- Se recebe cons (\c. c h t)
+        -- \x y. é colocado no lugar do c e consome h t
+          -- Falso seletor ignora e retorna falso
+
+    -- Segundo elemento da lista [a,b,empty]
+    head (tail (cons a (cons b empty)))
+
+## Recursão
+  Ponto fixo: um ponto que é mantido fixo ao passar por uma transformação
+
+  S: Padrão de recursão
+
+  S(I) = I
+  - I deve ser ponto fixo do padrão S
+     -  Quando aplica o padrão, a função fica inalterada
+      - Para ser ponto fixo de um padrão S, S(I) deve ser uma sequência infinita de repetições do padrão, pois colocar um nível a mais não afeta a função
+
+  Combinador Y (combinador de ponto fixo):
+  ```haskell
+    Y = \f. (\x. f (x x)) (\x. f (x x))
+
+    -- Ex.: Y A
+      -- Gera recursivamente um nível a mais de A
+      -- (A (A (A (A ...))))
+      -- É FP? Sim, S(YS) é beta eq. YS
+
+    -- Ex.: fatorial
+    fat_circular = \n. if (isZero n)
+                          l
+                          (mult n (fat (pred n)));
+
+    S_Fat = \R. \n. if (isZero n)
+                    l
+                    (mult n (R (pred n)));
+
+    fat = Y S_fat;
+  ```
+
+  Exemplos:
+  ```haskell
+  -- Tamanho de uma lista (len: list nat -> nat)
+  len_circ = \l. if (isEmpty l)
+              zero
+              (succ ( len ( tail l)))
+
+  S_len = \R. \l. if (isEmpty l)
+            zero
+            (succ ( R ( tail l)))
+
+  len = Y S_len
+  ```
 
 ## Revisão pra Prova 1
 

@@ -103,8 +103,38 @@ se não for a then b
 ?
 
 # 3.8
-- Numerais de Church?
+?
 
-- Par ordenado?
+# 3.9
+    ((λx.λy.x y) (λx.z)) x)
+    ((\x.\y.x y) (\x.z) x)
+    ((\y.(\x.z) y) x)
+    ((\y.z) x)
+    z
 
-- Menor?
+# 3.10
+- Entrada: pair x y, x e y são numerais de Church
+- Saída: 
+  - Se pair 0 0, devolve 0
+  - Se não, devolve mdc x y
+  
+  ---
+
+    pair = \a b c. c a b ;
+    true     =  \a b. a ;
+    false    =  \a b. b ;
+    if       =  \c a b. c a b ;
+    and      =  \a b. a b a ;
+    or       =  \a b. a a b ;
+    not      =  \p. p false true ;
+    isZero = \n. n (\x.false) (true);
+    
+
+     -- Extrair fst p e snd p
+     -- Avaliar se os dois são 0
+        -- Se sim, devolver 0
+        -- Se não, calcular mdc (fst p) (snd p)
+
+    isZeroPair = \p. (or (isZero (fst p)) (isZero (snd p)));
+    mdc = ?
+    teste = \p. if (isZeroPair p) 0 (mdc (fst p) (snd p));
