@@ -185,7 +185,7 @@ Teorema: o cálculo lambda é tão poderoso computacionalmente quanto programas 
 ## NORMA simula Lambda
 Teorema: NORMA (com programas monolíticos) é computacionalmente tão poderosa quanto cálculo Lambda.
 
-![equivalëncia de programas](/imgs/eq.png)
+![equivalëncia de programas](./imgs/eq.png)
 
 Grafo - equivalência entre modelos de computação
 
