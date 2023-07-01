@@ -139,15 +139,55 @@
   ```haskell
   -- Tamanho de uma lista (len: list nat -> nat)
   len_circ = \l. if (isEmpty l)
-              zero
-              (succ ( len ( tail l)))
+                    zero
+                    (succ ( len ( tail l)));
 
   S_len = \R. \l. if (isEmpty l)
-            zero
-            (succ ( R ( tail l)))
+                      zero
+                      (succ ( R ( tail l)));
 
   len = Y S_len
+
+  -- Ex.: aplicação
+  len (cons 1 (cons 2 (cons 3 (cons 4 empty))));
+
+  -- Ex.: somatório dos elementos de uma lista
+  S_sum = \R. \l. if (isEmpty l)
+                      zero
+                      (add (head l) (R (tail l)));
+  sum = Y S_sum
   ```
+
+<!-- ## Funções de alta ordem
+
+map: Consome uma operação e uma lista e roda a operação em todos os elementos da lista 
+```haskell
+-- Ex.: map succ (cons 3 (cons 1 empty)) => (cons 4 (cons2 empty))
+```
+filter: passado um teste e uma lista, apenas mantém na lista os resultados verdadeiros do teste
+```haskell
+-- Ex.: filter par (cons 3 (cons 2 (cons 1 empty)))
+```
+
+fold: passado uma operação binária com um ponto de partida e uma lista, troca o último valor pelo ponto de partida e aplica a operação no resto
+```haskell
+-- Ex.: fold + 0 (cons 3 (cons 2 (cons 1 empty)))
+``` -->
+
+## Termo Universal
+```haskell
+U = \f.\x.f x
+```
+
+## Lambda simula NORMA
+Teorema: o cálculo lambda é tão poderoso computacionalmente quanto programas monolíticos em máquina norma. Logo, Lambda simula norma
+
+## NORMA simula Lambda
+Teorema: NORMA (com programas monolíticos) é computacionalmente tão poderosa quanto cálculo Lambda.
+
+![equivalëncia de programas](/imgs/eq.png)
+
+Grafo - equivalência entre modelos de computação
 
 ## Revisão pra Prova 1
 
