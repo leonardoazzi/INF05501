@@ -246,3 +246,66 @@ foo 4 => 24
 Fatorial de x
 
 n! = 1 se n = 0, n*(n-1)! se n>0
+
+# Prova A 2022/2
+## 7
+let
+
+true = \a b.a;
+false = \a b.b;
+succ = \m. \p q. p (m p q);
+add = \m n. \p q. m p (n p q);
+pair = \a b c. c a b;
+fst = \p. p true;
+snd = \p. p false;
+mult     = \m n p q. m (n p) q ;
+triple = \a b c. pair (pair a b) c;
+fstT = \t. fst (fst t);
+sndT = \t. snd (fst t);
+trdT = \t. snd t;
+foo = \t. mult (fstT t) (mult 2 (trdT t));
+
+in
+
+foo (triple 2 1 3)
+
+#8
+
+let
+
+true = \a b. a;
+false = \a b. b;
+if = \a b c. a b c;
+
+pair = \a b c. c a b;
+fst = \p. p true;
+snd = \p. p false;
+
+Y = \f. (\x. f (x x)) (\x. f (x x));
+
+empty = \x. true;
+cons = pair;
+
+head = fst;
+tail = snd;
+isEmpty = \l. l (\a b.false);
+ succ     = \n p. \q. p (n p q) ;
+isZero   = \n. n (\x. false) true ;
+
+pred     = \n. fst (n (\p.(pair (snd p) (succ (snd p)))) (pair 0 0)) ;
+
+length = Y (\M. \l. if (isEmpty l) 0 (succ (M (tail l)))) ;
+P = \R. \i. \n. if (isZero i)
+                (if (isZero n) true
+                               (R 1 (pred n)))
+                (if (isZero n) false
+                               (R 0 (pred n)));
+
+even = \x. (Y P) 0 x;
+odd = \x. (Y P) 1 x;
+
+evenLength = \l. even (length l);
+
+in
+
+even 4

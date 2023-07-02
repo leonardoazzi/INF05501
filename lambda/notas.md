@@ -197,21 +197,24 @@ Ex.: \y.(\x.y x) ((\y.x) y) -> \y.(\x.y x) x -> \y.y x
   sum = Y S_sum
   ```
 
-<!-- ## Funções de alta ordem
+## Recursão mútua
+```haskell
+-- even(n) = if n=0 then TRUE else odd(n-1)
+-- odd(n) = if n=0 then FALSE else even(n-1)
 
-map: Consome uma operação e uma lista e roda a operação em todos os elementos da lista 
-```haskell
--- Ex.: map succ (cons 3 (cons 1 empty)) => (cons 4 (cons2 empty))
-```
-filter: passado um teste e uma lista, apenas mantém na lista os resultados verdadeiros do teste
-```haskell
--- Ex.: filter par (cons 3 (cons 2 (cons 1 empty)))
-```
+-- Padrão de recursão para o par de definições (even, odd)
+P = \R. \i. \n. if (isZero i)
+                (if (isZero n) true
+                               (R 1 (pred n)))
+                (if (isZero n) false
+                               (R 0 (pred n)));
 
-fold: passado uma operação binária com um ponto de partida e uma lista, troca o último valor pelo ponto de partida e aplica a operação no resto
-```haskell
--- Ex.: fold + 0 (cons 3 (cons 2 (cons 1 empty)))
-``` -->
+even = \x. (Y P) 0 x;
+odd = \x. (Y P) 1 x;
+
+-- Se tamanho de uma lista é par ou impar
+evenLength = \l. even (length l);
+```
 
 ## Termo Universal
 ```haskell
