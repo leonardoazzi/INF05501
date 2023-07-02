@@ -1,6 +1,5 @@
 # Lista de exercícios - Cálculo Lambda
-
-3.1 - 3.11
+2023/1
 
 
 ## 3.1
@@ -100,10 +99,48 @@ se não for a then b
 
 
 # 3.7
-?
+
+((λy.λx.(3 ∗ x) + y) 2) 11
+
+```haskell
+let
+  add      = \m n p q. (m p) (n p q) ;
+  mult     = \m n p q. m (n p) q ;
+in
+  ((\y.\x.(add (mult 3 x) y)) 2) 11
+```
+
 
 # 3.8
-?
+```haskell
+let 
+   
+    -- Logica booleana
+    true     =  \a b. a ;
+    false    =  \a b. b ;
+    if       =  \c a b. c a b ;
+    not      =  \p. p false true ;
+
+    -- Pares
+    pair     = \a b c. c a b ;
+    fst      = \p. p true ;
+    snd      = \p. p false ;
+
+    succ     = \n p. \q. p (n p q) ;
+    pred     = \n. fst (n (\p.(pair (snd p) (succ (snd p)))) (pair 0 0)) ;
+
+    sub      = \m n. (n pred) m ;
+
+    isZero   = \n. n (\x. false) true ;
+
+    less     = \m n. not (isZero (sub n m)) ;
+
+    shorter = \p. if (less (fst p) (snd p)) (fst p) (snd p)
+
+in
+    shorter (pair 3 2)
+```
+
 
 # 3.9
     ((λx.λy.x y) (λx.z)) x)
@@ -118,8 +155,8 @@ se não for a then b
   - Se pair 0 0, devolve 0
   - Se não, devolve mdc x y
   
-  ---
 
+```haskell
     pair = \a b c. c a b ;
     true     =  \a b. a ;
     false    =  \a b. b ;
@@ -138,3 +175,74 @@ se não for a then b
     isZeroPair = \p. (or (isZero (fst p)) (isZero (snd p)));
     mdc = ?
     teste = \p. if (isZeroPair p) 0 (mdc (fst p) (snd p));
+
+```
+
+# 3.11
+
+(a) 
+
+```haskell
+let
+
+true = \a b. a;
+false = \a b. b;
+if = \t e1 e2. t e1 e2;
+pair = \a b c. c a b;
+fst = \p. p true;
+snd = \p. p false;
+succ = \m. \p q. p (m p q);
+add   = \m n p q. (m p) (n p q) ;
+
+swap = \p. pair (snd p) (add (fst p) (snd p));
+
+
+
+in
+
+  swap (pair 1 2)
+```
+
+(b) R: Fibonacci
+
+(c) 
+
+```haskell
+let
+
+  true = \a b. a;
+  false = \a b. b;
+  if = \t e1 e2. t e1 e2;
+  pair = \a b c. c a b;
+  fst = \p. p true;
+  snd = \p. p false;
+  succ = \m. \p q. p (m p q);
+  add   = \m n p q. (m p) (n p q) ;
+  mult     = \m n p q. m (n p) q ;
+
+ somaPar = \p. pair (snd p) (add (fst p) (snd p));
+
+  multPar = \p. pair (mult (fst p) (snd p)) (succ (snd p));
+
+  foo = \m.fst(m multPar (pair 1 1));
+
+in
+
+  multPar (pair 1 2)
+```
+
+(d) 
+
+foo 0 => 1
+
+foo 1 => 1
+
+foo 2 => 2
+
+foo 3 => 6
+
+foo 4 => 24
+
+Fatorial de x
+
+n! = 1 se n = 0, n*(n-1)! se n>0

@@ -1,10 +1,49 @@
 # Cálculo Lambda (λ)
-
+2023/1
 ## Sintaxe
 
 λx.x y = `\x.(x y)`
 - (x y): escopo de λx
 - x y: aplicação @(x,y)
+
+## Pré-termos
+Conjunto infinito contável de parâmetros, identificadores, variáveis, e abstrações
+    
+- x, y (Variáveis)
+- @(M,N) (Aplicação)
+- λx.M (Abstração)
+
+## Alfa-equivalência
+Alfa-equivalência: dois pré-termos M e N são alfa-equivalentes sss eles diferem **somente** na escolha dos nomes de variáveis ligadas.
+  
+Ex.: \x.x y === \z.z y
+
+Ex.: \x.x x === \z.z z
+
+## Termo Lambda
+Classe de equivalência de pré-termos alfa-equivalentes.
+
+Ex.: [λx.x] = { λx.x, λy.y, λz.z, . . .}
+
+## Redex
+Expressão reduzível, é um subtermo de M com o formato (\x.P) Q, onde seu contractum é P[x <- Q]. Um termo que não contém nenhum redex é chamado de **forma normal**.
+
+
+Um termo P pode ter diversos redexes e, portanto, avaliar para distintos termos.
+
+Ex.: w = \x.x x e I = \x.x
+
+## Beta-redução
+Avalia termos lambda através de substituição. Se a partir da contração de algum redex de M obtivermos N, dizemos que M beta-reduz para N.
+
+Ex.: (\z.\x.x z) y -> \x.x y
+
+Ex.: \y.(\x.y x) ((\y.x) y) -> \y.(\x.y x) x -> \y.y x
+
+## Avaliação normal e estrita
+- Avaliação normal: redex mais externo, mais à esquerda. Realiza a aplicação sem normalizar a função nem o argumento.
+
+- Avaliação estrita: redex mais interno, mais à esquerda. Normaliza a função e o argumento antes de realizar a aplicação.
 
 ## Numerais de Church
     0 = \f x.x
